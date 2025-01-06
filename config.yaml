@@ -1,0 +1,75 @@
+units:
+  kx: u
+  ky: u
+  px: kx + 4
+  py: ky + 4
+points:
+  zones:
+    matrix:
+      anchor:
+        shift: [100, -100]
+      key:
+        padding: kx
+        spread: ky
+      rows:
+        top:
+        top_mid:
+        middle:
+        bottom_mid:
+        bottom:
+      columns:
+        mod:
+        left:
+        mid:
+        right:
+outlines:
+  raw:
+    - what: rectangle
+      where: true
+      size: [px, py]
+      fillet: 3
+  keys: # Viewing purposes
+    - what: rectangle
+      where: true
+      bound: false
+      size: [kx-1, kx-1]
+  combo: # Viewing purposes
+    - name: raw
+    - operation: subtract
+      name: keys
+pcbs:
+  numpad:
+    outlines:
+      - outline: raw
+    footprints:
+			- where: true # Switches
+				what: mx
+				params:
+					keycaps: true
+					reverse: false
+					hotswap: true
+					from: "{{column_net}}"
+					to: "{{colrow}}"
+			- where: true # Diodes
+				what: diode
+				params:
+					from: "{{colrow}}"
+			    to: "{{row_net}}"
+				adjust:
+          shift: [0, -5]
+			- where: # Controller
+          ref: matrix_mod_top
+					shift: [0,0]
+					rotate: 0
+				what: nice_nano 
+				params:
+					orientation: "down"
+		  - where: # Reset Button
+          ref: matrix_right_top
+        	shift: [20, 20]
+        	rotate: 0
+				what: button
+				params:
+					from: GND
+					to: RST
+      	  
