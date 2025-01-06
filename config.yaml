@@ -42,34 +42,33 @@ pcbs:
     outlines:
       - outline: raw
     footprints:
-			- where: true # Switches
-				what: mx
-				params:
-					keycaps: true
-					reverse: false
-					hotswap: true
-					from: "{{column_net}}"
-					to: "{{colrow}}"
-			- where: true # Diodes
-				what: diode
-				params:
-					from: "{{colrow}}"
-			    to: "{{row_net}}"
-				adjust:
-          shift: [0, -5]
-			- where: # Controller
-          ref: matrix_mod_top
-					shift: [0,0]
-					rotate: 0
-				what: nice_nano 
-				params:
-					orientation: "down"
-		  - where: # Reset Button
-          ref: matrix_right_top
-        	shift: [20, 20]
-        	rotate: 0
-				what: button
-				params:
-					from: GND
-					to: RST
-      	  
+    - where: true # Switches
+    what: mx
+    params:
+      keycaps: true
+      reverse: false
+      hotswap: true
+      from: "{{column_net}}"
+      to: "{{colrow}}"
+    - where: true # Diodes
+    what: diode
+    params:
+      from: "{{colrow}}"
+      to: "{{row_net}}"
+    adjust:
+      shift: [0, -5]
+    - where: # Controller
+      ref: matrix_mod_top
+      shift: [0,0]
+      rotate: 0
+    what: nice_nano 
+    params:
+      orientation: "down"
+    - where: # Reset Button
+      ref: matrix_right_top
+      shift: [20, 20]
+    rotate: 0
+    what: button
+    params:
+      from: GND
+      to: RST
