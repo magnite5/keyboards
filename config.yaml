@@ -7,68 +7,82 @@ points:
   zones:
     matrix:
       anchor:
-        shift: [100, -100]
+        shift: [100, -200]
       key:
         padding: kx
         spread: ky
       rows:
-        top:
-        top_mid:
-        middle:
-        bottom_mid:
-        bottom:
+        bottom.row_net: P4
+        bottom_mid.row_net: P3
+        middle.row_net: P2
+        top_mid.row_net: P0
+        top.row_net: P1
       columns:
-        mod:
-        left:
-        mid:
-        right:
+        mod.key.column_net: P5
+        left.key.column_net: P6
+        mid.key.column_net: P7
+        right.key.column_net: P8
 outlines:
   raw:
     - what: rectangle
       where: true
       size: [px, py]
-      fillet: 3
   keys: # Viewing purposes
     - what: rectangle
       where: true
       bound: false
       size: [kx-1, kx-1]
-  combo: # Viewing purposes
+  extras:
+    - what: rectangle
+      where:
+        ref: matrix_mod_top
+        shift: [0.5px+1.75, 1py]
+      size: [2px+3.5, py]
+  board:
     - name: raw
-    - operation: subtract
-      name: keys
+    - operation: stack
+      name: extras
+      fillet: 3
+
 pcbs:
   numpad:
     outlines:
       - outline: raw
+      - outline: extras
     footprints:
     - where: true # Switches
-    what: mx
-    params:
-      keycaps: true
-      reverse: false
-      hotswap: true
-      from: "{{column_net}}"
-      to: "{{colrow}}"
+      what: mx
+      params:
+        keycaps: true
+        reverse: false
+        hotswap: true
+        from: "{{column_net}}"
+        to: "{{colrow}}"
     - where: true # Diodes
-    what: diode
-    params:
-      from: "{{colrow}}"
-      to: "{{row_net}}"
-    adjust:
-      shift: [0, -5]
+      what: diode
+      params:
+        from: "{{colrow}}"
+        to: "{{row_net}}"
+      adjust:
+        shift: [0, -5]
     - where: # Controller
-      ref: matrix_mod_top
-      shift: [0,0]
-      rotate: 0
-    what: nice_nano 
-    params:
-      orientation: "down"
+        ref: matrix_mod_top
+        shift: [7,23]
+        rotate: 90
+      what: mcu_nice_nano
     - where: # Reset Button
-      ref: matrix_right_top
-      shift: [20, 20]
-    rotate: 0
-    what: button
-    params:
-      from: GND
-      to: RST
+        ref: matrix_left_top
+        shift: [11, 18]
+        rotate: 90
+      what: button
+      params:
+        from: GND
+        to: RST
+    - where: # Power Connector
+        ref: matrix_left_top
+        shift: [15, 29]
+        rotate: 270
+      what: jstph
+      params:
+        pos: pos
+        neg: GND
